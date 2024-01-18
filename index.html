@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Offline Notification</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.5.11/css/pico.min.css">
+  </head>
+  <body>
+    <div class="container" >
+ <h1>Checking Offline Status</h1>
+ <h2>Are you Offline? </h2>
+    <p class="indicator"></p>
+    <p class="status"></p>
+  </div>
+  </body>
+<style>
+.online{
+  background-color: lime;
+}
+.offline{
+  background-color: red;
+}
+.indicator{
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+</style>
+  <script>
+    let isOffline = false;
+window.addEventListener('load', checkConnectivity);
+const status = document.querySelector('.status')
+const indicator = document.querySelector('.indicator')
+// when the page has finished loading,
+// listen for future changes in connection
+function checkConnectivity() {
+  updateStatus();
+  window.addEventListener('online', updateStatus);
+  window.addEventListener('offline', updateStatus);
+}
+
+// check if we're online, set a class on <html> if not
+function updateStatus() {
+  if (typeof navigator.onLine !== 'undefined'){
+    isOffline = !navigator.onLine;
+    document.documentElement.classList.toggle('is-offline', isOffline);
+    status.innerText = isOffline ? 'true' : 'false'
+    if(isOffline){
+           indicator.classList.remove('offline')
+           indicator.classList.add('online')
+        } else {
+           indicator.classList.remove('online')
+           indicator.classList.add('offline')
+        }
+  }
+}
+  </script>
+</html>
